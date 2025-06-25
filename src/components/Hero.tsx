@@ -4,6 +4,7 @@ import { FEATURES } from "@/constants/consts";
 import FeatureCard from "./FeatureCard";
 import Messages from "./Messages";
 import { useChat } from "@/contexts/ChatContext";
+import Image from "next/image";
 
 export default function Hero() {
   const { messages } = useChat();
@@ -12,10 +13,12 @@ export default function Hero() {
     <section className="flex flex-col justify-center items-center h-[75vh] gap-4 radial-gradient-orange w-full">
       {messages.length === 0 ? (
         <div className="flex flex-col justify-center items-center gap-4">
-          <img
+          <Image
             className="size-20 bg-gradient-to-tr from-orange-300 via-orange-500 to-orange-700 rounded-xl p-3"
             src="/images/nexus-alt.svg"
             alt="Logo de Nexus"
+            width={80}
+            height={80}
           />
           <h1 className="font-outfit font-semibold text-4xl tracking-wide">
             ¡Hola! Soy Nexus

@@ -71,7 +71,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <ChatProvider>
-        <body>{children}</body>
+        <body className={`${inter.variable} ${outfit.variable} font-sans`}>{children}</body>
       </ChatProvider>
     </html>
   );
