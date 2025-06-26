@@ -23,6 +23,7 @@ export function useImage() {
       const data = await res.json();
       addMessage({ role: "assistant", content: data.image, type: "image" });
     } catch (err) {
+      console.error(err);
       addMessage({
         role: "assistant",
         content: "Lo siento, hubo un error al generar la imagen.",

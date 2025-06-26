@@ -3,6 +3,7 @@
 import { UserIcon, RobotIcon } from "./Icons";
 import { useChatContext } from "@/context/ChatContext";
 import ImageLoader from "./ImageLoader";
+import Image from "next/image";
 
 export default function Messages() {
   const { messages, loadingType } = useChatContext();
@@ -45,10 +46,12 @@ export default function Messages() {
                 message.content === "loading-image" ? (
                   <ImageLoader />
                 ) : message.content ? (
-                  <img
+                  <Image
                     src={message.content}
                     alt="Imagen generada"
                     className="rounded-xl w-full max-w-md border border-gray-300"
+                    width={500}
+                    height={500}
                   />
                 ) : (
                   <div className="w-full max-w-md h-[200px] flex items-center justify-center bg-red-100 text-red-500 rounded-xl">
