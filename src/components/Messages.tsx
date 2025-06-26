@@ -1,10 +1,11 @@
 "use client";
 
-import { useChat } from "@/contexts/ChatContext";
 import { UserIcon, RobotIcon } from "./Icons";
+import { useChatContext } from "@/context/ChatContext";
+import ImageLoader from "./ImageLoader";
 
 export default function Messages() {
-  const { messages, isLoading } = useChat();
+  const { messages, loadingType } = useChatContext();
 
   if (messages.length === 0) {
     return null;
@@ -22,8 +23,8 @@ export default function Messages() {
           >
             <span
               className={`font-outfit font-semibold absolute -top-10 sm:-top-12 ${
-                message.role === "assistant" 
-                  ? "-left-10 sm:-left-12 md:-left-14" 
+                message.role === "assistant"
+                  ? "-left-10 sm:-left-12 md:-left-14"
                   : "-right-10 sm:-right-12 md:-right-14"
               }`}
             >
@@ -40,11 +41,27 @@ export default function Messages() {
                   : "bg-gray-100 text-gray-800 rounded-tl-none"
               }`}
             >
-              {message.content}
+              {message.type === "image" ? (
+                message.content === "loading-image" ? (
+                  <ImageLoader />
+                ) : message.content ? (
+                  <img
+                    src={message.content}
+                    alt="Imagen generada"
+                    className="rounded-xl w-full max-w-md border border-gray-300"
+                  />
+                ) : (
+                  <div className="w-full max-w-md h-[200px] flex items-center justify-center bg-red-100 text-red-500 rounded-xl">
+                    No se pudo generar la imagen.
+                  </div>
+                )
+              ) : (
+                message.content
+              )}
             </div>
           </div>
         ))}
-        {isLoading && (
+        {loadingType === "chat" ? (
           <div className="flex justify-start">
             <div className="bg-gray-100 text-gray-800 rounded-2xl rounded-bl-none px-4 py-2">
               <div className="flex space-x-2">
@@ -63,7 +80,9 @@ export default function Messages() {
               </div>
             </div>
           </div>
-        )}
+        ) : loadingType === "image" ? (
+          <ImageLoader />
+        ) : null}
       </div>
     </div>
   );

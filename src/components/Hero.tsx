@@ -3,11 +3,11 @@
 import { FEATURES } from "@/constants/consts";
 import FeatureCard from "./FeatureCard";
 import Messages from "./Messages";
-import { useChat } from "@/contexts/ChatContext";
+import { useChatContext } from "@/context/ChatContext";
 import Image from "next/image";
 
 export default function Hero() {
-  const { messages } = useChat();
+  const { messages } = useChatContext();
 
   return (
     <section className="flex flex-col justify-center items-center h-[75vh] gap-4 radial-gradient-orange w-full">

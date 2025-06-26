@@ -1,23 +1,29 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState } from "react";
 import { ImageIcon, PaperClipIcon, SendIcon } from "./Icons";
-import { useChatAssistant } from "@/hooks/useChatAssistant";
+import { useChat } from "@/hooks/useChat";
+import { useImage } from "@/hooks/useImage";
 
 export default function ChatBar() {
   const [isInputFocused, setIsInputFocused] = useState(false);
   const [input, setInput] = useState("");
-  const { sendMessage } = useChatAssistant();
+  const [isImageMode, setIsImageMode] = useState(false);
+
+  const { sendMessage } = useChat();
+  const { generateImage } = useImage();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!input.trim()) return;
+    const prompt = input.trim();
+    if (!prompt) return;
 
-    try {
-      await sendMessage([{ role: "user", content: input }]);
-      setInput("");
-    } catch (error) {
-      console.error("Error al enviar el mensaje:", error);
+    setInput("");
+
+    if (isImageMode) {
+      await generateImage(prompt);
+    } else {
+      await sendMessage(prompt);
     }
   };
 
@@ -30,7 +36,15 @@ export default function ChatBar() {
             : "border-gray-300/50"
         } px-2 py-2 rounded-3xl shadow-lg w-[48vw] group transition-colors duration-200`}
       >
-        <button className="ml-4 cursor-pointer p-2 rounded-2xl hover:bg-orange-100 hover:text-orange-500 transition-all">
+        <button
+          onClick={() => setIsImageMode((prev) => !prev)}
+          className={`ml-4 cursor-pointer p-2 rounded-2xl transition-all
+            ${
+              isImageMode
+                ? "bg-orange-200 text-orange-600"
+                : "hover:bg-orange-100 hover:text-orange-500"
+            }`}
+        >
           <ImageIcon />
         </button>
         <form className="flex items-center">

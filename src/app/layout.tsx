@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, Outfit } from "next/font/google";
 import "./globals.css";
-import { ChatProvider } from "@/contexts/ChatContext";
+import { ChatProvider } from "@/context/ChatContext";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -69,9 +69,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="es">
       <ChatProvider>
-        <body className={`${inter.variable} ${outfit.variable} font-sans`}>{children}</body>
+        <body className={`${inter.variable} ${outfit.variable} font-sans`}>
+          {children}
+        </body>
       </ChatProvider>
     </html>
   );
