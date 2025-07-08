@@ -4,6 +4,7 @@ import { UserIcon, RobotIcon } from "./Icons";
 import { useChatContext } from "@/context/ChatContext";
 import ImageLoader from "./ImageLoader";
 import Image from "next/image";
+import ReactMarkdown from "react-markdown";
 
 export default function Messages() {
   const { messages, loadingType } = useChatContext();
@@ -11,6 +12,10 @@ export default function Messages() {
   if (messages.length === 0) {
     return null;
   }
+
+  const formatText = (text: string) => {
+    return text.replace(/(?<!\w\.\w.)(?<![A-Z][a-z]\.)(?<=\.|\?|!)\s/g, "\n\n");
+  };
 
   return (
     <div className="w-full md:w-[80vw] lg:w-[60vw] xl:w-[50vw] h-[calc(100vh-200px)] overflow-y-auto overflow-x-visible px-4 sm:px-8 md:px-12 lg:px-16 xl:px-24">
@@ -59,7 +64,9 @@ export default function Messages() {
                   </div>
                 )
               ) : (
-                message.content
+                <div className="prose prose-neutral dark:prose-invert max-w-none text-sm sm:text-base leading-relaxed">
+                  <ReactMarkdown>{formatText(message.content)}</ReactMarkdown>
+                </div>
               )}
             </div>
           </div>
